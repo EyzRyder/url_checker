@@ -4,9 +4,7 @@ export const metatagsSchema = z.object({
     title: z
         .string(),
     favicon: z
-        .string()
-        .startsWith("https://", { message: "Must provide secure URL" })
-        .endsWith(".ico", { message: "Only .ico domains allowed" }),
+        .string(),
     description: z
         .string(),
     img: z
