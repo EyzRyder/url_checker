@@ -1,17 +1,18 @@
 import { Request, Response } from 'express';
-import { setPreview } from '../func/setPreview';
+import { getPreviewData, getWhoIsData } from '../func/setPageData';
 
-const index = (req: Request, res: Response) => { 
+export const index = (req: Request, res: Response) => { 
     res.send("hello")
 }
 
-const getLinkData = async (req: Request, res: Response) => {
+export const getLinkData = async (req: Request, res: Response) => {
     let {data} = req.body;
-    const response = await setPreview(data);
+    const response = await getPreviewData(data);
     res.send(response);
 }
 
-export default {
-    index,
-    getLinkData
+export const getRegisterData = async (req: Request, res: Response) => {
+    let { data } = req.body;
+    const response = await getWhoIsData(data);
+    res.send(response);
 }

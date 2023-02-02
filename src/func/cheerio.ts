@@ -20,3 +20,18 @@ export function MetaTag(pageData: string) {
     return tags;
 }
 
+
+export function WhoIs(pageData: string) {
+    const $ = cheerio.load(pageData);
+
+    const data = {
+        whoRegistered: $(".container").children(".row").children(".col-md-8").children(".row").children(".col-md-12").children(".row").children(".col-md-8").first().text(),
+        registeredOn: $(".container").children(".row").children(".col-md-8").children(".row").children(".col-md-12").children(".row").has($(".col-md-8")[6]).children('.col-md-8').text(),
+        status: $("#siteStatusStatus").text()
+
+    };
+
+
+    return data;
+}
+

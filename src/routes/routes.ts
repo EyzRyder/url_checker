@@ -1,9 +1,10 @@
 import  { Router } from 'express';
-import controller from '../controllers/Controller'
+import { index, getLinkData, getRegisterData } from '../controllers/Controller'
 const router = Router();
 
-router.get('/', controller.index);
-router.post('/previewlink', controller.getLinkData);
+router.get('/', index);
+router.post('/previewlink', getLinkData);
+router.post('/registerdata', getRegisterData);
 
 
 export default router;
