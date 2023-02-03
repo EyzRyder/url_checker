@@ -1,7 +1,7 @@
-import { MetaTag, WhoIs } from "./cheerio";
+import { MetaTag, UrlRep, WhoIs } from "./cheerio";
 import { fetchPageData } from "./fechData";
 
-const getPreviewData = async (data:string) => {
+export const getPreviewData = async (data:string) => {
     try {
         let pageinfo: string = await fetchPageData(data);
         let tags = await MetaTag(pageinfo);
@@ -10,7 +10,7 @@ const getPreviewData = async (data:string) => {
         return { error }
     }
 }
-const getWhoIsData = async (data: string) => {
+export const getWhoIsData = async (data: string) => {
     try {
         let pageinfo: string = await fetchPageData(data.replace('https://www.', 'https://who.is/whois/'));
         let response = await WhoIs(pageinfo);
@@ -20,7 +20,12 @@ const getWhoIsData = async (data: string) => {
     }
 }
 
-export {
-    getPreviewData,
-    getWhoIsData
+export const getUrlRepData = async (data: string) => {
+    try {
+        let pageinfo: string = await fetchPageData(data.replace('https://www.', 'https://www.urlvoid.com/scan/'));
+        let response = await UrlRep(pageinfo);
+        return response;
+    } catch (error) {
+        return { error }
+    }
 }

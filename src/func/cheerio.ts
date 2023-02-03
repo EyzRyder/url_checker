@@ -35,3 +35,15 @@ export function WhoIs(pageData: string) {
     return data;
 }
 
+
+
+export function UrlRep(pageData: string) {
+    const $ = cheerio.load(pageData);
+
+    const data = {
+        detectionsCounts: $("table.table-custom").children("tbody").children("tr").children("td").children("span.label ").first().text(),
+    };
+
+
+    return data;
+}
