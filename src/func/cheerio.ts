@@ -1,8 +1,8 @@
 import { metatagsSchema } from './../schemas/metatags';
-import cheerio from 'cheerio';
+import cheerio, { CheerioAPI } from 'cheerio';
 
 export function MetaTag(pageData: string) {
-    const $ = cheerio.load(pageData);
+    const $: CheerioAPI = cheerio.load(pageData);
 
     const getMetatag = (name: string) =>
         $(`meta[name=${name}]`).attr('content') ||
@@ -22,7 +22,7 @@ export function MetaTag(pageData: string) {
 
 
 export function WhoIs(pageData: string) {
-    const $ = cheerio.load(pageData);
+    const $:CheerioAPI = cheerio.load(pageData);
 
     const data = {
         whoRegistered: $(".container").children(".row").children(".col-md-8").children(".row").children(".col-md-12").children(".row").children(".col-md-8").first().text(),
@@ -38,7 +38,7 @@ export function WhoIs(pageData: string) {
 
 
 export function UrlRep(pageData: string) {
-    const $ = cheerio.load(pageData);
+    const $: CheerioAPI = cheerio.load(pageData);
 
     const data = {
         detectionsCounts: $("table.table-custom").children("tbody").children("tr").children("td").children("span.label ").first().text(),
