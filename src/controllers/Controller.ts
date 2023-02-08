@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { getPreviewData, getWhoIsData, getUrlRepData } from '../func/setPageData';
+import { getPreviewData, getWhoIsData, getUrlRepData } from '../func/getPageData';
 
 export const index = (req: Request, res: Response) => { 
-    res.send("hello")
+    res.send({message:"hello"})
 }
 
 export const getLinkData = async (req: Request, res: Response) => {

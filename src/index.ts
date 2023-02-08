@@ -1,16 +1,15 @@
 import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
+import "dotenv/config";
 import cors from 'cors';
 import router from './routes/routes';
+import http from "http";
 
-dotenv.config();
-
-const app: Express = express();
 const port = process.env.PORT || 3000;
+const app: Express = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 app.use((req:Request, res:Response, next) => {
     console.log(req.path, req.method);
@@ -18,17 +17,18 @@ app.use((req:Request, res:Response, next) => {
 });
 
 app.get('/', (req: Request, res: Response,) => {
-    res.send("hello world!");
+    res.send({message:"hello world!"});
 })
 
 app.use('/api', router)
 
-app.use((req, res) => {
-    // res.status(404).sendFile('./views/404.html', { root: __dirname });
-    res.status(404).send('404')
+app.use((req: Request, res: Response) => {
+    res.status(404).send({ message: "page not found" })
 
 });
 
-app.listen(port, () => {
+const server = http.createServer(app);
+
+server.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
