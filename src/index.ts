@@ -23,10 +23,6 @@ app.get('/', (req: Request, res: Response,) => {
 
 app.use('/api', router)
 
-app.use('*', (req, res) => {
-    res.status(404).send({ error:"this route does not exist"})
-})
-
 app.use((req, res) => {
     // res.status(404).sendFile('./views/404.html', { root: __dirname });
     res.status(404).send('404')
