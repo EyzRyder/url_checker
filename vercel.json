@@ -1,10 +1,5 @@
 {
   "version": 2,
-  "installCommand": "npm install",
-    "outputDirectory": "dist",
-    "build":"npm run build",
-      "cleanUrls": true,
-
   "builds": [{
     "src": "./dist/index.js",
     "use": "@vercel/node"
