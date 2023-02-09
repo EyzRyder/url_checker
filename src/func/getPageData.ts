@@ -1,9 +1,7 @@
 import { chromium } from 'playwright-chromium'
 
 export const getPreviewData = async (url: string) => {
-    const browser = await chromium.launch({
-        channel: 'chrome'
-    });
+    const browser = await chromium.launch();
     const page = await browser.newPage();
 
     try {
@@ -46,9 +44,7 @@ export const getPreviewData = async (url: string) => {
 }
 
 export const getWhoIsData = async (url: string) => {
-    const browser = await chromium.launch({
-        channel: 'chrome'
-    });
+    const browser = await chromium.launch();
     const page = await browser.newPage();
 
     try {
@@ -70,9 +66,7 @@ export const getWhoIsData = async (url: string) => {
 
 export const getUrlRepData = async (url: string) => {
 
-    const browser = await chromium.launch({
-        channel: 'chrome'
-    });
+    const browser = await chromium.launch();
     const page = await browser.newPage();
 
     try {
