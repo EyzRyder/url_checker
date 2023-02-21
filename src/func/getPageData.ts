@@ -26,7 +26,6 @@ export const getPreviewData = async (url: string) => {
             }
             return {
                 title: await page.$eval('title', (el: any) => el.innerText),
-                favicon: await page.$eval('link[rel=icon]', (el: any) => el.href),
                 description: await getMetaTag('description'),
                 img: await getMetaTag("image"),
             }
