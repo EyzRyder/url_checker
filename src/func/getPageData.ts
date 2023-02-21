@@ -1,5 +1,6 @@
 import { chromium } from 'playwright-chromium'
 import "dotenv/config";
+process.env.PLAYWRIGHT_BROWSERS_PATH = "1";
 
 export const getPreviewData = async (url: string) => {
     const browser = await chromium.launch();
