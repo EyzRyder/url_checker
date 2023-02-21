@@ -1,8 +1,6 @@
 import { chromium } from 'playwright-chromium'
 import "dotenv/config";
 
-process.env.PLAYWRIGHT_BROWSERS_PATH = "0";
-
 export const getPreviewData = async (url: string) => {
     const browser = await chromium.launch();
     const page = await browser.newPage();
@@ -11,7 +9,7 @@ export const getPreviewData = async (url: string) => {
         await page.goto(url);
 
         async function tags() {
-            const getMetatag = async (name: string) => {
+            const getMetaTag = async (name: string) => {
                 try {
                     return await page.$eval(`meta[name=${name}]`, (el: any) => el.content)
                 }
@@ -28,8 +26,8 @@ export const getPreviewData = async (url: string) => {
             return {
                 title: await page.$eval('title', (el: any) => el.innerText),
                 favicon: await page.$eval('link[rel=icon]', (el: any) => el.href),
-                description: await getMetatag('description'),
-                img: await getMetatag("image"),
+                description: await getMetaTag('description'),
+                img: await getMetaTag("image"),
             }
         }
 
