@@ -3,10 +3,15 @@ import "dotenv/config";
 process.env.PLAYWRIGHT_BROWSERS_PATH = "1";
 
 export const getPreviewData = async (url: string) => {
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({
+        // executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 
+        // headless: false,
+    });
     const page = await browser.newPage();
 
     try {
+        url = "https://www." + url;
+
         await page.goto(url);
 
         async function tags() {
@@ -45,16 +50,24 @@ export const getPreviewData = async (url: string) => {
 }
 
 export const getWhoIsData = async (url: string) => {
-    const browser = await chromium.launch();
-    const page = await browser.newPage();
+    const browser = await chromium.launch({
+        // executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 
+        // headless: false,
+    });
+    const page = await browser.newPage().catch(err => { throw Error(err) });
 
     try {
-        await page.goto(url.replace('https://www.', 'https://who.is/whois/'));
+        await page.goto('https://who.is').catch(err => { throw Error(err) });
+        const input:any = await page.$('.input-lg.form-control')
+        await input.type(url).then(() => input.press('Enter'));
+        await page.waitForSelector("div.row:nth-of-type(3) > .queryResponseBody.col-md-12 > div.queryResponseBodyRow.row:nth-of-type(1) > .queryResponseBodyValue.col-md-8");
+
+        let registerData = await page.$eval('pre', (el: any) => el.innerText)
+        registerData = registerData.split("\n");
 
         return {
             whoRegistered: await page.$eval('div.row:nth-of-type(3) > .queryResponseBody.col-md-12 > div.queryResponseBodyRow.row:nth-of-type(1) > .queryResponseBodyValue.col-md-8', (el: any) => el.innerText),
-            registeredOn: await page.$eval('div.row:nth-of-type(5) > .queryResponseBody.col-md-12 > div.queryResponseBodyRow.row:nth-of-type(2) > .queryResponseBodyValue.col-md-8', (el: any) => el.innerText),
-            status: await page.$eval('.text-success', (el: any) => el.innerText),
+            registerData
         }
 
     } catch (error) {
@@ -67,18 +80,24 @@ export const getWhoIsData = async (url: string) => {
 
 export const getUrlRepData = async (url: string) => {
 
-    const browser = await chromium.launch();
-    const page = await browser.newPage();
+    const browser = await chromium.launch({
+        // executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 
+        // headless: false,
+    });
+    const page = await browser.newPage().catch(err => { throw Error(err) });
 
     try {
-        await page.goto(url.replace('https://www.', 'https://www.urlvoid.com/scan/'));
+        url = 'https://www.urlvoid.com/scan/'+url;
+        await page.goto(url).catch(err => {throw Error(err)});
 
         return {
-            detectionsCounts: await page.$eval('.label-success.label', (el: any) => el.innerText)
+            detectionsCounts: await page.$eval('.label-success.label', (el: any) => el.innerText),
+            domainAge: await page.$eval('div.panel-success.panel:nth-of-type(2) > .panel-body > .table-responsive > .table-striped.table-custom.table > tbody > tr:nth-of-type(4) > td:nth-of-type(2)', (el: any) => el.innerText),
+            serverLocal: await page.$eval('div.panel-success.panel:nth-of-type(2) > .panel-body > .table-responsive > .table-striped.table-custom.table > tbody > tr:nth-of-type(9) > td:nth-of-type(2)', (el: any) => el.innerText)
         }
 
     } catch (error) {
-        return { error }
+    return { error, message:"could not get url reputation" }
 
     } finally {
         await browser.close();
