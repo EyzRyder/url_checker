@@ -38,7 +38,7 @@ export const getLinkPlusRegisterData = async (req: Request, res: Response) => {
     let prev: any = await getPreviewData(data);
     let url: any = await getUrlRepData(data);
     let who: any = await getWhoIsData(data);
-    const response = await { ...prev, ...who,...url };
+    const response = await { url:data,...prev, ...who,...url };
 
     res.send(response);
 }
